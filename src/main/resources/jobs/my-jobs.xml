@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/batch http://www.springframework.org/schema/batch/spring-batch.xsd
+       http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+    <context:component-scan base-package="com.vkg.catalog.job" />
+    <context:property-placeholder system-properties-mode="OVERRIDE" location="classpath:/properties/catalog.properties" order="1"/>
+
+    <job id="reportJob" xmlns="http://www.springframework.org/schema/batch">
+        <step id="step1">
+            <tasklet>
+                <chunk reader="reportReader"
+                             writer="reportWriter"
+                             commit-interval="1">
+                </chunk>
+            </tasklet>
+        </step>
+        <listeners>
+            <listener ref="jobParamListener"/>
+        </listeners>
+    </job>
+
+    <bean id="reportReader" class="com.vkg.catalog.job.ReportReader"/>
+    <bean id="reportWriter" class="com.vkg.catalog.job.ReportWriter"/>
+    <bean id="jobParamListener" class="com.vkg.catalog.job.JobParamListener" />
+</beans>
