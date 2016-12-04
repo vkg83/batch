@@ -5,13 +5,15 @@ import org.springframework.batch.core.JobExecutionListener;
 import org.springframework.beans.factory.annotation.Value;
 
 public class JobParamListener implements JobExecutionListener {
-    @Value("${file.path}")
-    private String path;
+    @Value("${csv.file.path}")
+    private String csvPath;
+    @Value("${xml.file.path}")
+    private String xmlPath;
 
     @Override
     public void beforeJob(JobExecution jobExecution) {
-        System.out.println("Before job");
-        System.out.println("Path: " + path);
+        jobExecution.getExecutionContext().put("csvPath", csvPath);
+        jobExecution.getExecutionContext().put("xmlPath", xmlPath);
     }
 
     @Override

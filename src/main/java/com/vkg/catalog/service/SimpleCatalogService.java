@@ -13,14 +13,12 @@ import com.vkg.catalog.repo.CatalogDao;
 @Service
 public class SimpleCatalogService implements CatalogService {
 	@Autowired private CatalogDao catalogDao;
-	@Value("${file.path}") private String path;
-	
+
 	public void add(Product p) {
 		catalogDao.add(p);
 	}
 
 	public List<Product> findOfType(ProductType type) {
-		System.out.println("Service Path: " + path);
 		return catalogDao.find(type);
 	}
 
